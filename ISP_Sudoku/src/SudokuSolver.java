@@ -58,7 +58,7 @@ public class SudokuSolver implements ISudokuSolver {
 		//---------------------------------------------------------------------------------
 		//YOUR TASK:  Implement FC(asn)
 		//---------------------------------------------------------------------------------
-		public ArrayList FC(ArrayList<Integer> asn) {
+		public ArrayList<Integer> FC(ArrayList<Integer> asn) {
 									
 			//Check if assignment is complete
 			if (assignmentIsComplete(asn)) {
@@ -71,33 +71,34 @@ public class SudokuSolver implements ISudokuSolver {
 			//Copy Domain
 			ArrayList<ArrayList<Integer>> oldDomain = copyDomain(D);
 			
-			ArrayList<Integer> variableDomain = D.get(variable);			
+			int numberOfVariablesInDomain = D.get(variable).size();
 			
-			System.out.println("Variabel " + variable + " har " + variableDomain.size() + " værdier i sit domæne");
+			//printDomain(variable);
 			
 			//Go through ordered values
-			for (int value : variableDomain){
-				
+			for (int i = 0; i < numberOfVariablesInDomain; i++ ){
+				int value = D.get(variable).get(i);
 				//Do inference
 				boolean status = AC_FC(variable, value);
-				System.out.println(value + " er " + status + " for variabel " + variable);
 					
 				if (status){
 					//Add inference to assignment and update csp
+					//System.out.println("Adding value " + value + " to variable " + variable);
 					asn.add(variable, value);
 						
 					ArrayList<Integer> result = FC(asn);
-					
-					System.out.println("Inference test for " + value + " i variabel " + variable + " er " + status);
 						
 					//test result
 					if (result != null){
 						return result;
-					} 
-					//remove {var=value} and inferences from assigment and csp
-					asn.add(variable, 0);
-					D = copyDomain(oldDomain);											
+					} else {
+						//remove {var=value} and inferences from assigment and csp
+						//System.out.println("Removing value " + value + " from variable " + variable);
+						asn.add(variable, 0);
+						D = copyDomain(oldDomain);
+					}
 				} else {
+					//System.out.println("Arc-consistency failed for value " + value + ", variable " + variable);
 					D = copyDomain(oldDomain);
 				}
 			}			
@@ -105,6 +106,22 @@ public class SudokuSolver implements ISudokuSolver {
 			return null;//failure
 		}
 
+	private void printDomain(int variable){
+		System.out.println("Domænet for variable " + variable + " er: ");
+		for (int i : D.get(variable)){
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+	
+	private void printVariableDomain(int variable, ArrayList<Integer> variableDomain){
+		System.out.println("Det gemte domæne for variable " + variable + " er: ");
+		for (int i : variableDomain){
+			System.out.print(i + " ");
+		}
+		System.out.println();
+	}
+		
 	private boolean assignmentIsComplete(ArrayList<Integer> asn){
 		return !asn.contains(0);
 	}
@@ -132,12 +149,8 @@ public class SudokuSolver implements ISudokuSolver {
 		ArrayList<ArrayList<Integer>> copy = new ArrayList<>();
 						
 		for (int i = 0; i < domainToCopy.size(); i++){
-			ArrayList<Integer> row = new ArrayList<>();
 			ArrayList<Integer> rowToCopy = domainToCopy.get(i);
-			for (int j = 0; j < rowToCopy.size(); j++){
-				int valueToCopy = rowToCopy.get(j);
-				row.add(valueToCopy);
-			}
+			ArrayList<Integer> row = new ArrayList<>(rowToCopy);
 			copy.add(i, row);
 		}
 		
