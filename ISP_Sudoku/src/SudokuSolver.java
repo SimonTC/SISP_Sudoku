@@ -59,7 +59,7 @@ public class SudokuSolver implements ISudokuSolver {
 		//YOUR TASK:  Implement FC(asn)
 		//---------------------------------------------------------------------------------
 		public ArrayList<Integer> FC(ArrayList<Integer> asn) {
-									
+			
 			//Check if assignment is complete
 			if (assignmentIsComplete(asn)) {
 				return asn;
@@ -84,7 +84,7 @@ public class SudokuSolver implements ISudokuSolver {
 				if (status){
 					//Add inference to assignment and update csp
 					//System.out.println("Adding value " + value + " to variable " + variable);
-					asn.add(variable, value);
+					asn.set(variable, value);
 						
 					ArrayList<Integer> result = FC(asn);
 						
@@ -94,7 +94,7 @@ public class SudokuSolver implements ISudokuSolver {
 					} else {
 						//remove {var=value} and inferences from assigment and csp
 						//System.out.println("Removing value " + value + " from variable " + variable);
-						asn.add(variable, 0);
+						asn.set(variable, 0);
 						D = copyDomain(oldDomain);
 					}
 				} else {
