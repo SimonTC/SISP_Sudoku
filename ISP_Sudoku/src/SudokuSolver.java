@@ -105,22 +105,6 @@ public class SudokuSolver implements ISudokuSolver {
 			
 			return null;//failure
 		}
-
-	private void printDomain(int variable){
-		System.out.println("Domænet for variable " + variable + " er: ");
-		for (int i : D.get(variable)){
-			System.out.print(i + " ");
-		}
-		System.out.println();
-	}
-	
-	private void printVariableDomain(int variable, ArrayList<Integer> variableDomain){
-		System.out.println("Det gemte domæne for variable " + variable + " er: ");
-		for (int i : variableDomain){
-			System.out.print(i + " ");
-		}
-		System.out.println();
-	}
 		
 	private boolean assignmentIsComplete(ArrayList<Integer> asn){
 		return !asn.contains(0);
