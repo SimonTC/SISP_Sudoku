@@ -137,6 +137,7 @@ public class SudokuGUI extends JComponent implements MouseListener, KeyListener{
 		if ( (cCol == l + 1 || cCol == l + 2) && 
 				(cRow == l/2 || cRow == l/2+1)){
 			canBeSolved = solver.solve();
+			System.out.println("");
 		}
 		repaint();
 	}

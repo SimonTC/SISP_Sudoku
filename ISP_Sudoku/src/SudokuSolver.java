@@ -46,7 +46,7 @@ public class SudokuSolver implements ISudokuSolver {
 		if (solution == null){
 			return false;
 		}
-		System.out.println("I solved it");
+		puzzle = GetPuzzle(asn);
 		return true;
 	}
 
