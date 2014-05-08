@@ -71,12 +71,12 @@ public class SudokuSolver implements ISudokuSolver {
 			//Copy Domain
 			ArrayList<ArrayList<Integer>> oldDomain = copyDomain(D);
 			
-			int numberOfVariablesInDomain = D.get(variable).size();
+			int numberOfValuesInDomain = D.get(variable).size();
 			
 			//printDomain(variable);
 			
 			//Go through ordered values
-			for (int i = 0; i < numberOfVariablesInDomain; i++ ){
+			for (int i = 0; i < numberOfValuesInDomain; i++ ){
 				int value = D.get(variable).get(i);
 				//Do inference
 				boolean status = AC_FC(variable, value);
