@@ -73,9 +73,7 @@ public class SudokuSolver implements ISudokuSolver {
 			
 			int numberOfValuesInDomain = D.get(variable).size();
 			
-			//printDomain(variable);
-			
-			//Go through ordered values
+			//Go through values in the domain
 			for (int i = 0; i < numberOfValuesInDomain; i++ ){
 				int value = D.get(variable).get(i);
 				//Do inference
@@ -83,7 +81,6 @@ public class SudokuSolver implements ISudokuSolver {
 					
 				if (status){
 					//Add inference to assignment and update csp
-					//System.out.println("Adding value " + value + " to variable " + variable);
 					asn.set(variable, value);
 						
 					ArrayList<Integer> result = FC(asn);
@@ -93,12 +90,10 @@ public class SudokuSolver implements ISudokuSolver {
 						return result;
 					} else {
 						//remove {var=value} and inferences from assigment and csp
-						//System.out.println("Removing value " + value + " from variable " + variable);
 						asn.set(variable, 0);
 						D = copyDomain(oldDomain);
 					}
 				} else {
-					//System.out.println("Arc-consistency failed for value " + value + ", variable " + variable);
 					D = copyDomain(oldDomain);
 				}
 			}			
@@ -113,20 +108,8 @@ public class SudokuSolver implements ISudokuSolver {
 	private int selectFirstUnassignedVariable(ArrayList<Integer> asn){
 		for (int i = 0; i < asn.size(); i++){
 			if (asn.get(i) == 0) return i;
-		}
-		
+		}		
 		return -1;
-	}
-	
-	private ArrayList<Integer> orderDomainValues(int variable){
-		ArrayList<Integer> variableDomain = D.get(variable);
-		variableDomain = sort(variableDomain);
-		return variableDomain;		
-	}
-	
-	private ArrayList<Integer> sort(ArrayList<Integer> variableDomain){
-		Collections.sort(variableDomain);
-		return variableDomain;
 	}
 	
 	private ArrayList<ArrayList<Integer>> copyDomain(ArrayList<ArrayList<Integer>> domainToCopy){
